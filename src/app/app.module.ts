@@ -15,6 +15,7 @@ import { PageExampleComponent } from './pages/page-example/page-example.componen
 import { NavbarModule } from './navbar/navbar.module';
 import { DriversPageComponent } from './pages/drivers/drivers-page/drivers-page.component';
 import { DriversModule } from './pages/drivers/drivers.module';
+import { SeasonsStateModule } from './+state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { DriversModule } from './pages/drivers/drivers.module';
     MatListModule,
     NavbarModule,
     DriversModule,
+    SeasonsStateModule,
     RouterModule.forRoot([
       {
         path: 'drivers',

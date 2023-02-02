@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+    <mat-label>Seasons</mat-label>
+    <mat-select [value]="(selectedSeason$ | async)?.id" (selectionChange)="selectSeason($event)">
+        <ng-container *ngIf="allSeasons$ | async as seasons">
+            <mat-option *ngFor="let season of seasons" [value]="season.id">{{season.id}}</mat-option>
+        </ng-container>
+    </mat-select>
+</mat-form-field>
