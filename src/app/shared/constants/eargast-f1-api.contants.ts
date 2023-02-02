@@ -1,0 +1,1 @@
+export const ErgastF1APIBaseUrl = 'http://ergast.com/api/f1';

@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+import { DriversFacade } from 'src/app/+state/drivers/drivers.facade';
 
 @Component({
   selector: 'rxf1-hero-devs-drivers-page',
@@ -7,4 +8,9 @@ import { Component, inject } from '@angular/core';
 })
 export class DriversPageComponent {
 
+  allDrivers$ = this.driversFacade.allDrivers$;
+
+  constructor(private driversFacade: DriversFacade) {
+    this.driversFacade.init();
+  }
 }
