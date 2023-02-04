@@ -15,8 +15,7 @@ export class DriversEffects {
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DriversActions.initDrivers),
-      // TODO: season should be provided by param
-      switchMap(() => this.driversService$.getDriversListBySeason('2019')),
+      switchMap(({seasonId}) => this.driversService$.getDriversListBySeason(seasonId)),
       switchMap((drivers) => {
         return of(DriversActions.loadDriversSuccess({ drivers: drivers }))
       }),
