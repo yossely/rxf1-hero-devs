@@ -25,3 +25,10 @@
     </ng-container>
 
 </table>
+
+<mat-paginator 
+    [pageSizeOptions]="[10, 15, 25]"
+    showFirstLastButtons
+    [length]="totalItems"
+    aria-label="Drivers by season list">
+</mat-paginator>

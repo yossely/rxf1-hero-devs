@@ -41,3 +41,8 @@ export const selectEntity = createSelector(
   selectSelectedId,
   (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)
 );
+
+export const selectTotalDrivers = createSelector(
+  selectDriversState,
+  (state: DriversState) => state.total
+);

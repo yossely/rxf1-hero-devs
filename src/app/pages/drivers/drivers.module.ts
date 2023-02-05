@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { DriversPageComponent } from './drivers-page/drivers-page.component';
 import { DriversStateModule } from 'src/app/+state';
@@ -9,7 +10,13 @@ import { SeasonsFilterModule } from 'src/app/shared/components/seasons-filter/se
 
 @NgModule({
   declarations: [DriversPageComponent, DriversListComponent],
-  imports: [CommonModule, DriversStateModule, SeasonsFilterModule, MatTableModule],
+  imports: [
+    CommonModule,
+    DriversStateModule,
+    SeasonsFilterModule,
+    MatTableModule,
+    MatPaginatorModule,
+  ],
   exports: [DriversPageComponent, DriversListComponent],
 })
-export class DriversModule { }
+export class DriversModule {}

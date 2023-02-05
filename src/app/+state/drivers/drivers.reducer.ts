@@ -10,6 +10,7 @@ export interface DriversState extends EntityState<DriversEntity> {
   selectedId?: string | number; // which Drivers record has been selected
   loaded: boolean; // has the Drivers list been loaded
   error?: string | null; // last known error (if any)
+  total: number; // total amount of drivers
 }
 
 export interface DriversPartialState {
@@ -23,6 +24,7 @@ export const initialDriversState: DriversState = driversAdapter.getInitialState(
   {
     // set initial required properties
     loaded: false,
+    total: 0,
   }
 );
 
@@ -33,8 +35,8 @@ const reducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(DriversActions.loadDriversSuccess, (state, { drivers }) =>
-    driversAdapter.setAll(drivers, { ...state, loaded: true })
+  on(DriversActions.loadDriversSuccess, (state, { drivers, total }) =>
+    driversAdapter.setAll(drivers, { ...state, total, loaded: true })
   ),
   on(DriversActions.loadDriversFailure, (state, { error }) => ({
     ...state,

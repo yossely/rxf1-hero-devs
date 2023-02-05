@@ -8,25 +8,42 @@ import { DriversEntity } from './drivers.models';
 
 @Injectable()
 export class DriversService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // TODO: season type - string is correct - where to declare?
-  getDriversListBySeason(season: string): Observable<DriversEntity[]> {
-    return this.http.get<EargastF1APIModels.ErgastF1APIBaseResponse>(`${EargastF1APIConstants.ErgastF1APIBaseUrl}/${season}/drivers.json`)
+  getDriversListBySeason(
+    season: string,
+    pagination?: EargastF1APIModels.ErgastF1APIPaginationQueryParams
+  ): Observable<{ drivers: DriversEntity[]; total: number }> {
+    return this.http
+      .get<EargastF1APIModels.ErgastF1APIBaseResponse>(
+        `${EargastF1APIConstants.ErgastF1APIBaseUrl}/${season}/drivers.json`,
+        {
+          params: {
+            limit: pagination?.limit || 10,
+            offset: pagination?.offset || 0,
+          },
+        }
+      )
       .pipe(
-        map(resp => {
+        map((resp) => {
           const driversRespList = resp.MRData.DriverTable?.Drivers || [];
-          const driversEntityList: DriversEntity[] = driversRespList.map(d => ({
-            id: d.driverId,
-            permanentNumber: d.permanentNumber,
-            code: d.code,
-            url: d.url,
-            givenName: d.givenName,
-            familyName: d.familyName,
-            dateOfBirth: d.dateOfBirth,
-            nationality: d.nationality,
-          }))
-          return driversEntityList;
+          const driversEntityList: DriversEntity[] = driversRespList.map(
+            (d) => ({
+              id: d.driverId,
+              permanentNumber: d.permanentNumber,
+              code: d.code,
+              url: d.url,
+              givenName: d.givenName,
+              familyName: d.familyName,
+              dateOfBirth: d.dateOfBirth,
+              nationality: d.nationality,
+            })
+          );
+          return {
+            drivers: driversEntityList,
+            total: Number(resp.MRData.total),
+          };
         })
       );
   }
