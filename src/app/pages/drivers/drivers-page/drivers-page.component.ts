@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { combineLatest, filter, map, startWith, tap } from 'rxjs';
+import { combineLatest, filter, map, startWith } from 'rxjs';
 
 import { DriversFacade } from 'src/app/+state/drivers/drivers.facade';
 import { SeasonsFacade } from 'src/app/+state/seasons/seasons.facade';
@@ -29,12 +29,10 @@ export class DriversPageComponent implements AfterViewInit {
     combineLatest([
       this.selectedSeason$.pipe(
         filter((selectedSeason) => !!selectedSeason && !!selectedSeason.id),
-        tap((selectedSeason) => console.log({ selectedSeason })),
         map((selectedSeason) => selectedSeason as SeasonsEntity)
       ),
       this.driversListComponent.paginationChange.pipe(startWith(undefined)),
     ]).subscribe(([selectedSeason, pagination]) => {
-      console.log({ selectedSeason, pagination });
       this.driversFacade.init(String(selectedSeason.id), pagination);
     });
     // ? unsubscribe on destroy
