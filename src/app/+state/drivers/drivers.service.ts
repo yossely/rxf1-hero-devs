@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { EargastF1APIConstants } from 'src/app/shared/constants';
 
+import { EargastF1APIConstants } from 'src/app/shared/constants';
 import { EargastF1APIModels } from 'src/app/shared/models';
+import { SeasonsEntity } from '../seasons/seasons.models';
 import { DriversEntity } from './drivers.models';
 
 @Injectable()
 export class DriversService {
   constructor(private http: HttpClient) {}
 
-  // TODO: season type - string is correct - where to declare?
   getDriversListBySeason(
-    season: string,
+    season: SeasonsEntity['id'],
     pagination?: EargastF1APIModels.ErgastF1APIPaginationQueryParams
   ): Observable<{ drivers: DriversEntity[]; total: number }> {
     return this.http
