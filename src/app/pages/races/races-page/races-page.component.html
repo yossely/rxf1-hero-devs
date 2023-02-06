@@ -1,0 +1,7 @@
+<h1>Races</h1>
+
+<rxf1-hero-devs-seasons-filter />
+<rxf1-hero-devs-races-list 
+    [racesList]="(allRaces$ | async) || []"
+    [totalItems]="(totalRaces$ | async) || 0"
+></rxf1-hero-devs-races-list>
