@@ -17,9 +17,22 @@
   <ng-container matColumnDef="raceUrl">
     <th mat-header-cell *matHeaderCellDef>Url</th>
     <td mat-cell *matCellDef="let element">
-      <a mat-raised-button href="{{ element.url }}" target="_blank"
+      <a href="{{ element.url }}" target="_blank"
         >{{ element.name }} - Wiki Site</a
       >
+    </td>
+  </ng-container>
+  <!-- Select Race Action Column -->
+  <ng-container matColumnDef="selectRace">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        aria-label="View race results"
+        (click)="markRaceAsSelected(element)"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
     </td>
   </ng-container>
 </table>

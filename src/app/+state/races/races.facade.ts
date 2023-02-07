@@ -4,6 +4,7 @@ import { select, Store, Action } from '@ngrx/store';
 import { ErgastF1APIPaginationQueryParams } from 'src/app/shared/models/eargast-f1-api.models';
 import { SeasonsEntity } from '../seasons/seasons.models';
 import * as RacesActions from './races.actions';
+import { RacesEntity } from './races.models';
 import * as RacesFeature from './races.reducer';
 import * as RacesSelectors from './races.selectors';
 
@@ -13,13 +14,29 @@ export class RacesFacade {
 
   loaded$ = this.store.pipe(select(RacesSelectors.selectRacesLoaded));
   allRaces$ = this.store.pipe(select(RacesSelectors.selectAllRaces));
-  selectedRaces$ = this.store.pipe(select(RacesSelectors.selectEntity));
+  selectedRace$ = this.store.pipe(select(RacesSelectors.selectEntity));
   totalRaces$ = this.store.pipe(select(RacesSelectors.selectTotalRaces));
+  raceFinalResults$ = this.store.pipe(
+    select(RacesSelectors.selectRaceFinalResults)
+  );
 
   init(
     seasonId: SeasonsEntity['id'],
     pagination?: ErgastF1APIPaginationQueryParams
   ) {
     this.store.dispatch(RacesActions.initRaces({ seasonId, pagination }));
+  }
+
+  selectRace(raceId: RacesEntity['id']) {
+    this.store.dispatch(RacesActions.selectRace({ raceId }));
+  }
+
+  loadFinalResultsByRace(
+    seasonId: SeasonsEntity['id'],
+    raceId: RacesEntity['id']
+  ) {
+    this.store.dispatch(
+      RacesActions.loadFinalResultsByRace({ seasonId, raceId })
+    );
   }
 }

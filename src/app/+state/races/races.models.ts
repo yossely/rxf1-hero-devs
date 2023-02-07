@@ -7,3 +7,12 @@ export interface RacesEntity {
   url: string;
   date: string; // Date format: YYYY-MM-DD
 }
+
+export interface RacesFinalResult {
+  number: string;
+  position: string;
+  points: string;
+  driverName: string;
+  driverNationality: string;
+  time?: string;
+}

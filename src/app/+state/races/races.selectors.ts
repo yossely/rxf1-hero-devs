@@ -42,3 +42,8 @@ export const selectTotalRaces = createSelector(
   selectRacesState,
   (state: RacesState) => state.total
 );
+
+export const selectRaceFinalResults = createSelector(
+  selectRacesState,
+  (state: RacesState) => state.finalResults
+);

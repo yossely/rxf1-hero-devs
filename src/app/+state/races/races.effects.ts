@@ -26,4 +26,24 @@ export class RacesEffects {
       })
     )
   );
+
+  loadRaceFinalResults$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RacesActions.loadFinalResultsByRace),
+      switchMap(({ seasonId, raceId }) =>
+        this.racesService$.getFinalResultsByRace(seasonId, raceId)
+      ),
+      switchMap(({ results }) =>
+        of(
+          RacesActions.loadRaceFinalResultsSuccess({
+            raceFinalResults: results,
+          })
+        )
+      ),
+      catchError((error) => {
+        console.error('Error', error);
+        return of(RacesActions.loadRaceFinalResultsFailure({ error }));
+      })
+    )
+  );
 }

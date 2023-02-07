@@ -26,7 +26,15 @@ export class RacesListComponent implements AfterViewInit {
   @Output()
   paginationChange = new EventEmitter<ErgastF1APIPaginationQueryParams>();
 
-  driversListTableColumns: string[] = ['raceId', 'raceName', 'raceUrl'];
+  @Output()
+  raceSelect = new EventEmitter<RacesEntity>();
+
+  driversListTableColumns: string[] = [
+    'raceId',
+    'raceName',
+    'raceUrl',
+    'selectRace',
+  ];
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -39,5 +47,10 @@ export class RacesListComponent implements AfterViewInit {
         offset: pageEvent.pageSize * pageEvent.pageIndex,
       });
     });
+  }
+
+  markRaceAsSelected(race: RacesEntity) {
+    // TODO: mark row as selected in table (highlight)
+    this.raceSelect.emit(race);
   }
 }
