@@ -46,4 +46,24 @@ export class RacesEffects {
       })
     )
   );
+
+  loadRaceQualifyingResults$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RacesActions.loadQualifyingResultsByRace),
+      switchMap(({ seasonId, raceId }) =>
+        this.racesService$.getQualifyingResultsByRace(seasonId, raceId)
+      ),
+      switchMap(({ results }) =>
+        of(
+          RacesActions.loadRaceQualifyingResultsSuccess({
+            raceQualifyingResults: results,
+          })
+        )
+      ),
+      catchError((error) => {
+        console.error('Error', error);
+        return of(RacesActions.loadRaceQualifyingResultsFailure({ error }));
+      })
+    )
+  );
 }

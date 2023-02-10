@@ -5,7 +5,11 @@ import { map, Observable } from 'rxjs';
 import { EargastF1APIConstants } from 'src/app/shared/constants';
 import { EargastF1APIModels } from 'src/app/shared/models';
 import { SeasonsEntity } from '../seasons/seasons.models';
-import { RacesEntity, RacesFinalResult } from './races.models';
+import {
+  RacesEntity,
+  RacesFinalResult,
+  RacesQualifyingResult,
+} from './races.models';
 
 @Injectable()
 export class RacesService {
@@ -64,6 +68,35 @@ export class RacesService {
               time: r.Time?.time,
             })
           );
+          return {
+            results: raceResultsList,
+          };
+        })
+      );
+  }
+
+  getQualifyingResultsByRace(
+    season: SeasonsEntity['id'],
+    raceId: RacesEntity['id']
+  ): Observable<{ results: RacesQualifyingResult[] }> {
+    return this.http
+      .get<EargastF1APIModels.ErgastF1APIBaseResponse>(
+        `${EargastF1APIConstants.ErgastF1APIBaseUrl}/${season}/${raceId}/qualifying.json`
+      )
+      .pipe(
+        map((resp) => {
+          const raceQualifyingResultsRespList =
+            resp.MRData.RaceTable?.Races[0].QualifyingResults || [];
+          const raceResultsList: RacesQualifyingResult[] =
+            raceQualifyingResultsRespList.map((r) => ({
+              number: r.number,
+              position: r.position,
+              driverName: `${r.Driver.givenName} ${r.Driver.familyName}`, // TODO: could be extracted to a util
+              driverNationality: r.Driver.nationality,
+              Q1: r.Q1,
+              Q2: r.Q2,
+              Q3: r.Q3,
+            }));
           return {
             results: raceResultsList,
           };

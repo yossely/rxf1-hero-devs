@@ -2,7 +2,11 @@ import { createAction, props } from '@ngrx/store';
 
 import { ErgastF1APIPaginationQueryParams } from 'src/app/shared/models/eargast-f1-api.models';
 import { SeasonsEntity } from '../seasons/seasons.models';
-import { RacesEntity, RacesFinalResult } from './races.models';
+import {
+  RacesEntity,
+  RacesFinalResult,
+  RacesQualifyingResult,
+} from './races.models';
 
 export const initRaces = createAction(
   '[Races Page] Init',
@@ -42,5 +46,23 @@ export const loadRaceFinalResultsSuccess = createAction(
 
 export const loadRaceFinalResultsFailure = createAction(
   '[Races/API] Load Race Final Results Failure',
+  props<{ error: any }>()
+);
+
+export const loadQualifyingResultsByRace = createAction(
+  '[Races Page] Load race qualifying results',
+  props<{
+    seasonId: SeasonsEntity['id'];
+    raceId: RacesEntity['id'];
+  }>()
+);
+
+export const loadRaceQualifyingResultsSuccess = createAction(
+  '[Races/API] Load Race Qualifying Results Success',
+  props<{ raceQualifyingResults: RacesQualifyingResult[] }>()
+);
+
+export const loadRaceQualifyingResultsFailure = createAction(
+  '[Races/API] Load Race Qualifying Results Failure',
   props<{ error: any }>()
 );

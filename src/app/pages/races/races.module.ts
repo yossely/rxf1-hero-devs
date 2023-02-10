@@ -11,12 +11,14 @@ import { SeasonsFilterModule } from 'src/app/shared/components/seasons-filter/se
 import { RacesListComponent } from './races-list/races-list.component';
 import { RacesStateModule } from 'src/app/+state';
 import { RaceResultsListComponent } from './race-results-list/race-results-list.component';
+import { RaceQualifyingResultsListComponent } from './race-qualifying-results-list/race-qualifying-results-list.component';
 
 @NgModule({
   declarations: [
     RacesPageComponent,
     RacesListComponent,
     RaceResultsListComponent,
+    RaceQualifyingResultsListComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,6 @@ import { RaceResultsListComponent } from './race-results-list/race-results-list.
     MatButtonModule,
     MatTabsModule,
   ],
-  exports: [RacesPageComponent, RacesListComponent, RaceResultsListComponent],
+  exports: [RacesPageComponent],
 })
 export class RacesModule {}

@@ -79,7 +79,8 @@ interface ErgastF1APIRace {
   date: string;
   // Time format: hh:mm:ssZ
   time: string;
-  Results: ErgastF1APIRaceResult[];
+  Results?: ErgastF1APIRaceResult[];
+  QualifyingResults?: ErgastF1APIRaceQualifyingResult[];
 }
 
 interface ErgastF1APIRaceTable {
@@ -104,4 +105,14 @@ export interface ErgastF1APIBaseResponse {
 export interface ErgastF1APIPaginationQueryParams {
   limit: number;
   offset: number;
+}
+
+export interface ErgastF1APIRaceQualifyingResult {
+  number: string;
+  position: string;
+  Driver: ErgastF1APIDriver;
+  Constructor: ErgastF1APIConstructor;
+  Q1: string;
+  Q2?: string;
+  Q3?: string;
 }
