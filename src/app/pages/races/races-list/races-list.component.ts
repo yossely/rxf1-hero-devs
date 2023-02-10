@@ -61,7 +61,7 @@ export class RacesListComponent implements OnDestroy {
         map((selectedSeason) => selectedSeason as SeasonsEntity)
       )
       .subscribe((selectedSeason) => {
-        this.racesFacade.init(String(selectedSeason.id));
+        this.racesFacade.init(selectedSeason.id);
         this.currentSelectedSeason = selectedSeason;
 
         if (this.paginator) {
