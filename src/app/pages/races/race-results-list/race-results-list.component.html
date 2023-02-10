@@ -1,8 +1,15 @@
-<div *ngIf="!raceFinalResults.length; else tableContent" class="mt-1">
+<div
+  *ngIf="!((raceFinalResults$ | async) || []).length; else tableContent"
+  class="mt-1"
+>
   No final results available. Please select a race.
 </div>
 <ng-template #tableContent>
-  <table mat-table [dataSource]="raceFinalResults" class="mat-elevation-z8">
+  <table
+    mat-table
+    [dataSource]="(raceFinalResults$ | async) || []"
+    class="mat-elevation-z8"
+  >
     <!-- Header -->
     <tr mat-header-row *matHeaderRowDef="raceFinalResultsListTableColumns"></tr>
     <tr
