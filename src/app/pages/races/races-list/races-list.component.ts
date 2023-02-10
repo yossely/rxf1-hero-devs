@@ -1,8 +1,8 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { filter, map, Subscription } from 'rxjs';
-import { RacesFacade } from 'src/app/+state/races/races.facade';
 
+import { RacesFacade } from 'src/app/+state/races/races.facade';
 import { RacesEntity } from 'src/app/+state/races/races.models';
 import { SeasonsFacade } from 'src/app/+state/seasons/seasons.facade';
 import { SeasonsEntity } from 'src/app/+state/seasons/seasons.models';
@@ -61,7 +61,7 @@ export class RacesListComponent implements OnDestroy {
         map((selectedSeason) => selectedSeason as SeasonsEntity)
       )
       .subscribe((selectedSeason) => {
-        this.racesFacade.init(String(selectedSeason.id));
+        this.racesFacade.init(selectedSeason.id);
         this.currentSelectedSeason = selectedSeason;
 
         if (this.paginator) {
