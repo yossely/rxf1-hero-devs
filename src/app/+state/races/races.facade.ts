@@ -19,6 +19,9 @@ export class RacesFacade {
   raceFinalResults$ = this.store.pipe(
     select(RacesSelectors.selectRaceFinalResults)
   );
+  raceQualifyingResults$ = this.store.pipe(
+    select(RacesSelectors.selectRaceQualifyingResults)
+  );
 
   init(
     seasonId: SeasonsEntity['id'],
@@ -37,6 +40,15 @@ export class RacesFacade {
   ) {
     this.store.dispatch(
       RacesActions.loadFinalResultsByRace({ seasonId, raceId })
+    );
+  }
+
+  loadQualifyingResultsByRace(
+    seasonId: SeasonsEntity['id'],
+    raceId: RacesEntity['id']
+  ) {
+    this.store.dispatch(
+      RacesActions.loadQualifyingResultsByRace({ seasonId, raceId })
     );
   }
 }

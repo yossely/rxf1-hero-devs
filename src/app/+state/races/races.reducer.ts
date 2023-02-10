@@ -2,18 +2,25 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on, Action } from '@ngrx/store';
 
 import * as RacesActions from './races.actions';
-import { RacesEntity, RacesFinalResult } from './races.models';
+import {
+  RacesEntity,
+  RacesFinalResult,
+  RacesQualifyingResult,
+} from './races.models';
 
 export const RACES_FEATURE_KEY = 'races';
 
 export interface RacesState extends EntityState<RacesEntity> {
-  selectedId?: string | number; // which Races record has been selected
+  selectedId?: string; // which Races record has been selected
   loaded: boolean; // has the Races list been loaded
   error?: string | null; // last known error (if any)
   total: number; // total number of races
   finalResults?: RacesFinalResult[];
   finalResultsLoaded?: boolean;
   finalResultsError?: string | null;
+  qualifyingResults?: RacesQualifyingResult[];
+  qualifyingResultsLoaded?: boolean;
+  qualifyingResultsError?: string | null;
 }
 
 export interface RacesPartialState {
@@ -58,6 +65,18 @@ const reducer = createReducer(
   on(RacesActions.loadRaceFinalResultsFailure, (state, { error }) => ({
     ...state,
     finalResultsError: error,
+  })),
+  on(
+    RacesActions.loadRaceQualifyingResultsSuccess,
+    (state, { raceQualifyingResults }) => ({
+      ...state,
+      qualifyingResults: raceQualifyingResults,
+      qualifyingResultsLoaded: true,
+    })
+  ),
+  on(RacesActions.loadRaceQualifyingResultsFailure, (state, { error }) => ({
+    ...state,
+    qualifyingResultsError: error,
   }))
 );
 

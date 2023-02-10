@@ -47,3 +47,8 @@ export const selectRaceFinalResults = createSelector(
   selectRacesState,
   (state: RacesState) => state.finalResults
 );
+
+export const selectRaceQualifyingResults = createSelector(
+  selectRacesState,
+  (state: RacesState) => state.qualifyingResults
+);
