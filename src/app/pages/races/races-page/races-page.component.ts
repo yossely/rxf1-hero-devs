@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { combineLatest, filter, map, startWith } from 'rxjs';
+import { combineLatest, filter, map } from 'rxjs';
 
 import { RacesFacade } from 'src/app/+state/races/races.facade';
 import { RacesEntity } from 'src/app/+state/races/races.models';
@@ -13,9 +13,7 @@ import { RacesListComponent } from '../races-list/races-list.component';
   styleUrls: ['./races-page.component.scss'],
 })
 export class RacesPageComponent implements AfterViewInit {
-  allRaces$ = this.racesFacade.allRaces$;
   selectedSeason$ = this.seasonsFacade.selectedSeason$;
-  totalRaces$ = this.racesFacade.totalRaces$;
   raceFinalResults$ = this.racesFacade.raceFinalResults$;
   selectedRace$ = this.racesFacade.selectedRace$;
 
@@ -28,27 +26,11 @@ export class RacesPageComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.loadRacesBySeason();
     this.loadFinalResultsByRace();
   }
 
   markRaceAsSelect(race: RacesEntity) {
-    console.log(race);
     this.racesFacade.selectRace(race.id);
-  }
-
-  private loadRacesBySeason() {
-    // TODO: reset pagination on selected season change
-    combineLatest([
-      this.selectedSeason$.pipe(
-        filter((selectedSeason) => !!selectedSeason && !!selectedSeason.id),
-        map((selectedSeason) => selectedSeason as SeasonsEntity)
-      ),
-      this.racesListComponent.paginationChange.pipe(startWith(undefined)),
-    ]).subscribe(([selectedSeason, pagination]) => {
-      this.racesFacade.init(String(selectedSeason.id), pagination);
-    });
-    // ? unsubscribe on destroy
   }
 
   private loadFinalResultsByRace() {

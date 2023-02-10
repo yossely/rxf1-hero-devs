@@ -1,4 +1,8 @@
-<table mat-table [dataSource]="racesList" class="mat-elevation-z8">
+<table
+  mat-table
+  [dataSource]="(racesList$ | async) || []"
+  class="mat-elevation-z8"
+>
   <!-- Header -->
   <tr mat-header-row *matHeaderRowDef="driversListTableColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: driversListTableColumns"></tr>
@@ -39,8 +43,9 @@
 
 <mat-paginator
   [pageSizeOptions]="[10, 15, 25]"
+  (page)="onPageChange($event)"
   showFirstLastButtons
-  [length]="totalItems"
+  [length]="totalItems$ | async"
   aria-label="List of races by season"
 >
 </mat-paginator>

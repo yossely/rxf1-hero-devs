@@ -2,11 +2,7 @@
 
 <rxf1-hero-devs-seasons-filter />
 <div class="display-flex">
-  <rxf1-hero-devs-races-list
-    [racesList]="(allRaces$ | async) || []"
-    [totalItems]="(totalRaces$ | async) || 0"
-    (raceSelect)="markRaceAsSelect($event)"
-  ></rxf1-hero-devs-races-list>
+  <rxf1-hero-devs-races-list></rxf1-hero-devs-races-list>
 
   <mat-tab-group class="ml-3">
     <mat-tab label="Final Results">
