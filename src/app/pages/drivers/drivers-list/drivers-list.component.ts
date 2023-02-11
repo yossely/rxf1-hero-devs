@@ -1,30 +1,22 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { OnDestroy, Component, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { filter, map, Subscription } from 'rxjs';
 
-import { DriversEntity } from 'src/app/+state/drivers/drivers.models';
-import { ErgastF1APIPaginationQueryParams } from 'src/app/shared/models/eargast-f1-api.models';
+import { DriversFacade } from 'src/app/+state/drivers/drivers.facade';
+import { SeasonsFacade } from 'src/app/+state/seasons/seasons.facade';
+import { SeasonsEntity } from 'src/app/+state/seasons/seasons.models';
 
 @Component({
   selector: 'rxf1-hero-devs-drivers-list',
   templateUrl: './drivers-list.component.html',
   styleUrls: ['./drivers-list.component.scss'],
 })
-export class DriversListComponent implements AfterViewInit {
-  @Input()
-  driversList: DriversEntity[] = [];
+export class DriversListComponent implements OnDestroy {
+  driversList$ = this.driversFacade.allDrivers$;
+  totalItems$ = this.driversFacade.totalDrivers$;
+  selectedSeason$ = this.seasonsFacade.selectedSeason$;
 
-  @Input()
-  totalItems = 0;
-
-  @Output()
-  paginationChange = new EventEmitter<ErgastF1APIPaginationQueryParams>();
+  currentSelectedSeason!: SeasonsEntity;
 
   driversListTableColumns: string[] = [
     'permanentNumber',
@@ -36,13 +28,39 @@ export class DriversListComponent implements AfterViewInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  ngAfterViewInit() {
-    // ? unsubscribe on destroy
-    this.paginator.page.subscribe((pageEvent) => {
-      this.paginationChange.emit({
-        limit: pageEvent.pageSize,
-        offset: pageEvent.pageSize * pageEvent.pageIndex,
-      });
+  private selectedSeasonSub!: Subscription;
+
+  constructor(
+    private driversFacade: DriversFacade,
+    private seasonsFacade: SeasonsFacade
+  ) {
+    this.loadDriversBySeason();
+  }
+
+  ngOnDestroy(): void {
+    this.selectedSeasonSub.unsubscribe();
+  }
+
+  onPageChange(pageEvent: PageEvent) {
+    this.driversFacade.init(this.currentSelectedSeason.id, {
+      limit: pageEvent.pageSize,
+      offset: pageEvent.pageSize * pageEvent.pageIndex,
     });
+  }
+
+  private loadDriversBySeason() {
+    this.selectedSeasonSub = this.selectedSeason$
+      .pipe(
+        filter((selectedSeason) => !!selectedSeason && !!selectedSeason.id),
+        map((selectedSeason) => selectedSeason as SeasonsEntity)
+      )
+      .subscribe((selectedSeason) => {
+        this.driversFacade.init(selectedSeason.id);
+        this.currentSelectedSeason = selectedSeason;
+
+        if (this.paginator) {
+          this.paginator.firstPage();
+        }
+      });
   }
 }
