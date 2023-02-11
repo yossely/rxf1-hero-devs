@@ -89,6 +89,27 @@ interface ErgastF1APIRaceTable {
   Races: ErgastF1APIRace[];
 }
 
+export interface ErgastF1APIDriverStanding {
+  position: string;
+  positionText: string;
+  points: string;
+  wins: string;
+  Driver: ErgastF1APIDriver;
+  Constructors: ErgastF1APIConstructor[];
+}
+
+export interface ErgastF1APIStandingsList {
+  season: string;
+  round: string;
+  DriverStandings: ErgastF1APIDriverStanding[];
+}
+
+interface ErgastF1APIStandingsTable {
+  season: string;
+  round: string;
+  StandingsLists: ErgastF1APIStandingsList[];
+}
+
 export interface ErgastF1APIBaseResponse {
   MRData: {
     xmlns: string;
@@ -99,6 +120,7 @@ export interface ErgastF1APIBaseResponse {
     total: string;
     DriverTable?: ErgastF1APIDriverTable;
     RaceTable?: ErgastF1APIRaceTable;
+    StandingsTable?: ErgastF1APIStandingsTable;
   };
 }
 

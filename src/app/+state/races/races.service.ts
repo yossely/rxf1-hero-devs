@@ -6,6 +6,7 @@ import { EargastF1APIConstants } from 'src/app/shared/constants';
 import { EargastF1APIModels } from 'src/app/shared/models';
 import { SeasonsEntity } from '../seasons/seasons.models';
 import {
+  RacesDriversStanding,
   RacesEntity,
   RacesFinalResult,
   RacesQualifyingResult,
@@ -57,7 +58,7 @@ export class RacesService {
       .pipe(
         map((resp) => {
           const raceResultsRespList =
-            resp.MRData.RaceTable?.Races[0].Results || [];
+            resp.MRData.RaceTable?.Races[0]?.Results || [];
           const raceResultsList: RacesFinalResult[] = raceResultsRespList.map(
             (r) => ({
               number: r.number,
@@ -86,7 +87,7 @@ export class RacesService {
       .pipe(
         map((resp) => {
           const raceQualifyingResultsRespList =
-            resp.MRData.RaceTable?.Races[0].QualifyingResults || [];
+            resp.MRData.RaceTable?.Races[0]?.QualifyingResults || [];
           const raceResultsList: RacesQualifyingResult[] =
             raceQualifyingResultsRespList.map((r) => ({
               number: r.number,
@@ -99,6 +100,35 @@ export class RacesService {
             }));
           return {
             results: raceResultsList,
+          };
+        })
+      );
+  }
+
+  getDriverStandingsByRace(
+    season: SeasonsEntity['id'],
+    raceId: RacesEntity['id']
+  ): Observable<{ results: RacesDriversStanding[] }> {
+    return this.http
+      .get<EargastF1APIModels.ErgastF1APIBaseResponse>(
+        `${EargastF1APIConstants.ErgastF1APIBaseUrl}/${season}/${raceId}/driverStandings.json`
+      )
+      .pipe(
+        map((resp) => {
+          const raceDriverStandingsRespList =
+            resp.MRData.StandingsTable?.StandingsLists[0]?.DriverStandings ||
+            [];
+          const driverStandings: RacesDriversStanding[] =
+            raceDriverStandingsRespList.map((r) => ({
+              position: r.position,
+              positionText: r.positionText,
+              points: r.points,
+              wins: r.wins,
+              driverName: `${r.Driver.givenName} ${r.Driver.familyName}`, // TODO: could be extracted to a util
+              driverNationality: r.Driver.nationality,
+            }));
+          return {
+            results: driverStandings,
           };
         })
       );

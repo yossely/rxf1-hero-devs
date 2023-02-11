@@ -3,6 +3,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import * as RacesActions from './races.actions';
 import {
+  RacesDriversStanding,
   RacesEntity,
   RacesFinalResult,
   RacesQualifyingResult,
@@ -21,6 +22,9 @@ export interface RacesState extends EntityState<RacesEntity> {
   qualifyingResults?: RacesQualifyingResult[];
   qualifyingResultsLoaded?: boolean;
   qualifyingResultsError?: string | null;
+  driverStandings?: RacesDriversStanding[];
+  driverStandingsLoaded?: boolean;
+  driverStandingsError?: string | null;
 }
 
 export interface RacesPartialState {
@@ -77,6 +81,18 @@ const reducer = createReducer(
   on(RacesActions.loadRaceQualifyingResultsFailure, (state, { error }) => ({
     ...state,
     qualifyingResultsError: error,
+  })),
+  on(
+    RacesActions.loadRaceDriverStandingsSuccess,
+    (state, { raceDriverStandings }) => ({
+      ...state,
+      driverStandings: raceDriverStandings,
+      driverStandingsLoaded: true,
+    })
+  ),
+  on(RacesActions.loadRaceDriverStandingsFailure, (state, { error }) => ({
+    ...state,
+    driverStandingsError: error,
   }))
 );
 

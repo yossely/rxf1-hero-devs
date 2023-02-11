@@ -26,3 +26,12 @@ export interface RacesQualifyingResult {
   Q2?: string;
   Q3?: string;
 }
+
+export interface RacesDriversStanding {
+  position: string;
+  positionText: string;
+  points: string;
+  wins: string;
+  driverName: string;
+  driverNationality: string;
+}

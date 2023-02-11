@@ -66,4 +66,24 @@ export class RacesEffects {
       })
     )
   );
+
+  loadDriverStandings$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RacesActions.loadDriverStandingsByRace),
+      switchMap(({ seasonId, raceId }) =>
+        this.racesService$.getDriverStandingsByRace(seasonId, raceId)
+      ),
+      switchMap(({ results }) =>
+        of(
+          RacesActions.loadRaceDriverStandingsSuccess({
+            raceDriverStandings: results,
+          })
+        )
+      ),
+      catchError((error) => {
+        console.error('Error', error);
+        return of(RacesActions.loadRaceDriverStandingsFailure({ error }));
+      })
+    )
+  );
 }
