@@ -12,6 +12,7 @@ import { RacesListComponent } from './races-list/races-list.component';
 import { RacesStateModule } from 'src/app/+state';
 import { RaceResultsListComponent } from './race-results-list/race-results-list.component';
 import { RaceQualifyingResultsListComponent } from './race-qualifying-results-list/race-qualifying-results-list.component';
+import { RaceDriverStandingsListComponent } from './race-driver-standings-list/race-driver-standings-list.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { RaceQualifyingResultsListComponent } from './race-qualifying-results-li
     RacesListComponent,
     RaceResultsListComponent,
     RaceQualifyingResultsListComponent,
+    RaceDriverStandingsListComponent,
   ],
   imports: [
     CommonModule,

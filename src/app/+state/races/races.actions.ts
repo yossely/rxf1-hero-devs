@@ -3,6 +3,7 @@ import { createAction, props } from '@ngrx/store';
 import { ErgastF1APIPaginationQueryParams } from 'src/app/shared/models/eargast-f1-api.models';
 import { SeasonsEntity } from '../seasons/seasons.models';
 import {
+  RacesDriversStanding,
   RacesEntity,
   RacesFinalResult,
   RacesQualifyingResult,
@@ -64,5 +65,23 @@ export const loadRaceQualifyingResultsSuccess = createAction(
 
 export const loadRaceQualifyingResultsFailure = createAction(
   '[Races/API] Load Race Qualifying Results Failure',
+  props<{ error: any }>()
+);
+
+export const loadDriverStandingsByRace = createAction(
+  '[Races Page] Load race driver standing',
+  props<{
+    seasonId: SeasonsEntity['id'];
+    raceId: RacesEntity['id'];
+  }>()
+);
+
+export const loadRaceDriverStandingsSuccess = createAction(
+  '[Races/API] Load Race Driver Standings Success',
+  props<{ raceDriverStandings: RacesDriversStanding[] }>()
+);
+
+export const loadRaceDriverStandingsFailure = createAction(
+  '[Races/API] Load Race Driver Standings Failure',
   props<{ error: any }>()
 );

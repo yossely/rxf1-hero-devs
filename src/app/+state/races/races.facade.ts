@@ -22,6 +22,9 @@ export class RacesFacade {
   raceQualifyingResults$ = this.store.pipe(
     select(RacesSelectors.selectRaceQualifyingResults)
   );
+  driverStandings$ = this.store.pipe(
+    select(RacesSelectors.selectRaceDriverStandings)
+  );
 
   init(
     seasonId: SeasonsEntity['id'],
@@ -49,6 +52,15 @@ export class RacesFacade {
   ) {
     this.store.dispatch(
       RacesActions.loadQualifyingResultsByRace({ seasonId, raceId })
+    );
+  }
+
+  loadDriverStandingsByRace(
+    seasonId: SeasonsEntity['id'],
+    raceId: RacesEntity['id']
+  ) {
+    this.store.dispatch(
+      RacesActions.loadDriverStandingsByRace({ seasonId, raceId })
     );
   }
 }

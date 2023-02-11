@@ -1,0 +1,53 @@
+<div
+  *ngIf="!((driverStandings$ | async) || []).length; else tableContent"
+  class="mt-1"
+>
+  No driver standings results available. Please select a race.
+</div>
+<ng-template #tableContent>
+  <table
+    mat-table
+    [dataSource]="(driverStandings$ | async) || []"
+    class="mat-elevation-z8"
+  >
+    <!-- Header -->
+    <tr
+      mat-header-row
+      *matHeaderRowDef="raceDriverStandingsListTableColumns"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: raceDriverStandingsListTableColumns"
+    ></tr>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Position</th>
+      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+    </ng-container>
+    <!-- Driver Name Column -->
+    <ng-container matColumnDef="driverName">
+      <th mat-header-cell *matHeaderCellDef>Driver</th>
+      <td mat-cell *matCellDef="let element">{{ element.driverName }}</td>
+    </ng-container>
+    <!-- Driver Nationality Column -->
+    <ng-container matColumnDef="driverNationality">
+      <th mat-header-cell *matHeaderCellDef>Nationality</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.driverNationality }}
+      </td>
+    </ng-container>
+    <!-- Points Column -->
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef>Points</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.points }}
+      </td>
+    </ng-container>
+    <!-- Wins Column -->
+    <ng-container matColumnDef="wins">
+      <th mat-header-cell *matHeaderCellDef>Wins</th>
+      <td mat-cell *matCellDef="let element">{{ element.wins }}</td>
+    </ng-container>
+  </table>
+</ng-template>
