@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { NavbarModule } from './navbar/navbar.module';
 import { DriversModule } from './pages/drivers/drivers.module';
 import { SeasonsStateModule } from './+state';
-import { RacesPageComponent } from './pages/races/races-page/races-page.component';
 import { RacesModule } from './pages/races/races.module';
 
 @NgModule({
@@ -35,7 +34,8 @@ import { RacesModule } from './pages/races/races.module';
       },
       {
         path: 'races',
-        component: RacesPageComponent,
+        loadChildren: () =>
+          import('./pages/races/races.module').then((m) => m.RacesModule),
       },
       {
         path: '**',

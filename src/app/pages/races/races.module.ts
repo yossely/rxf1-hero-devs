@@ -13,6 +13,7 @@ import { RacesStateModule } from 'src/app/+state';
 import { RaceResultsListComponent } from './race-results-list/race-results-list.component';
 import { RaceQualifyingResultsListComponent } from './race-qualifying-results-list/race-qualifying-results-list.component';
 import { RaceDriverStandingsListComponent } from './race-driver-standings-list/race-driver-standings-list.component';
+import { RacesRoutingModule } from './races-routing.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RaceDriverStandingsListComponent } from './race-driver-standings-list/r
     MatIconModule,
     MatButtonModule,
     MatTabsModule,
+    RacesRoutingModule,
   ],
   exports: [RacesPageComponent],
 })
