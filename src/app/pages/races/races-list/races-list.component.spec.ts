@@ -29,6 +29,7 @@ class RacesFacadeMock {
 
   init = jest.fn();
   selectRace = jest.fn();
+  clearSelectedRace = jest.fn();
 }
 
 class SeasonsFacadeMock {
@@ -84,21 +85,41 @@ describe('RacesListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load races based on selected season', async () => {
-    const selectedSeason = seasonsFacadeMock.selectedSeason$.value;
-    expect(racesFacadeMock.init).toHaveBeenCalledWith(selectedSeason?.id);
-  });
+  describe('Selected Season Update', () => {
+    it('should load races based on selected season', async () => {
+      const selectedSeason = seasonsFacadeMock.selectedSeason$.value;
+      expect(racesFacadeMock.init).toHaveBeenCalledWith(selectedSeason?.id);
+    });
 
-  it('should reset paginator on selected season update', async () => {
-    const newSeasonSelected: SeasonsEntity = {
-      id: '2020',
-    };
-    await fixture.whenStable();
-    jest.spyOn(component.paginator!, 'firstPage');
+    it('should reset paginator on selected season update', async () => {
+      const newSeasonSelected: SeasonsEntity = {
+        id: '2020',
+      };
+      await fixture.whenStable();
+      jest.spyOn(component.paginator!, 'firstPage');
 
-    seasonsFacadeMock.selectedSeason$.next(newSeasonSelected);
+      seasonsFacadeMock.selectedSeason$.next(newSeasonSelected);
 
-    expect(component.paginator?.firstPage).toHaveBeenCalled();
+      expect(component.paginator?.firstPage).toHaveBeenCalled();
+    });
+
+    it('should clear selected race on selected season update', async () => {
+      const newSeasonSelected: SeasonsEntity = {
+        id: '2020',
+      };
+      await fixture.whenStable();
+
+      seasonsFacadeMock.selectedSeason$.next(newSeasonSelected);
+
+      expect(racesFacadeMock.clearSelectedRace).toHaveBeenCalled();
+    });
+
+    it('should clear race row highlight on season change', async () => {
+      fixture.detectChanges();
+      const trDe = fixture.debugElement.queryAll(By.css('tbody>tr.highlight'));
+
+      expect(trDe.length).toBeFalsy();
+    });
   });
 
   it('should load races on pagination change', async () => {
@@ -133,18 +154,32 @@ describe('RacesListComponent', () => {
     ]);
   });
 
-  it('should mark race as selected', async () => {
+  describe('Race selection', () => {
     const indexToClick = 0;
-    const expectedRaceIdClicked =
-      racesFacadeMock.allRaces$.value[indexToClick].id;
-    const buttonDe = fixture.debugElement.queryAll(
-      By.css('[data-test="select-race-button"]')
-    )[indexToClick];
+    let expectedRaceIdClicked: RacesEntity['id'];
 
-    buttonDe.nativeElement.click();
+    beforeEach(() => {
+      expectedRaceIdClicked = racesFacadeMock.allRaces$.value[indexToClick].id;
+      const buttonDe = fixture.debugElement.queryAll(
+        By.css('[data-test="select-race-button"]')
+      )[indexToClick];
 
-    expect(racesFacadeMock.selectRace).toHaveBeenCalledWith(
-      expectedRaceIdClicked
-    );
+      buttonDe.nativeElement.click();
+    });
+
+    it('should mark race as selected in store', async () => {
+      expect(racesFacadeMock.selectRace).toHaveBeenCalledWith(
+        expectedRaceIdClicked
+      );
+    });
+
+    it('should highlight selected race row on table', async () => {
+      fixture.detectChanges();
+      const trDe = fixture.debugElement.queryAll(
+        By.css('tbody>tr[role="row"]')
+      )[indexToClick];
+
+      expect(trDe.nativeElement.className).toContain('highlight');
+    });
   });
 });
