@@ -63,6 +63,7 @@ export class RacesListComponent implements OnDestroy {
       .subscribe((selectedSeason) => {
         this.racesFacade.init(selectedSeason.id);
         this.currentSelectedSeason = selectedSeason;
+        this.racesFacade.clearSelectedRace();
 
         if (this.paginator) {
           this.paginator.firstPage();

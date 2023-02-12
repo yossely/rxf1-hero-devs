@@ -1,15 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, catchError, of } from 'rxjs';
+import { switchMap, catchError, of, withLatestFrom } from 'rxjs';
 
 import * as RacesActions from './races.actions';
 import * as RacesFeature from './races.reducer';
 import { RacesService } from './races.service';
+import { SeasonsFacade } from '../seasons/seasons.facade';
 
 @Injectable()
 export class RacesEffects {
   private actions$ = inject(Actions);
   private racesService$ = inject(RacesService);
+  private seasonFacade$ = inject(SeasonsFacade);
 
   init$ = createEffect(() =>
     this.actions$.pipe(
@@ -27,12 +29,15 @@ export class RacesEffects {
     )
   );
 
-  loadRaceFinalResults$ = createEffect(() =>
+  loadFinalResultsByRaceAndSelectedSeason$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(RacesActions.loadFinalResultsByRace),
-      switchMap(({ seasonId, raceId }) =>
-        this.racesService$.getFinalResultsByRace(seasonId, raceId)
-      ),
+      ofType(RacesActions.loadFinalResultsByRaceAndSelectedSeason),
+      withLatestFrom(this.seasonFacade$.selectedSeason$),
+      switchMap(([{ raceId }, selectedSeason]) => {
+        return selectedSeason
+          ? this.racesService$.getFinalResultsByRace(selectedSeason.id, raceId)
+          : [];
+      }),
       switchMap(({ results }) =>
         of(
           RacesActions.loadRaceFinalResultsSuccess({

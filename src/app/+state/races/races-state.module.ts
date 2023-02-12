@@ -7,11 +7,13 @@ import * as fromRaces from './races.reducer';
 import { RacesEffects } from './races.effects';
 import { RacesFacade } from './races.facade';
 import { RacesService } from './races.service';
+import { SeasonsStateModule } from '../seasons/seasons-state.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    SeasonsStateModule,
     StoreModule.forFeature(fromRaces.RACES_FEATURE_KEY, fromRaces.racesReducer),
     EffectsModule.forFeature([RacesEffects]),
   ],

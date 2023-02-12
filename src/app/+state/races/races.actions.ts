@@ -32,10 +32,13 @@ export const selectRace = createAction(
   props<{ raceId: RacesEntity['id'] }>()
 );
 
-export const loadFinalResultsByRace = createAction(
-  '[Races Page] Load race final results',
+export const clearSelectedRace = createAction(
+  '[Races Page] Clear Selected Race'
+);
+
+export const loadFinalResultsByRaceAndSelectedSeason = createAction(
+  '[Races Page] Load race final results by selected season',
   props<{
-    seasonId: SeasonsEntity['id'];
     raceId: RacesEntity['id'];
   }>()
 );

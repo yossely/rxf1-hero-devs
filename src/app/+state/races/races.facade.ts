@@ -37,12 +37,13 @@ export class RacesFacade {
     this.store.dispatch(RacesActions.selectRace({ raceId }));
   }
 
-  loadFinalResultsByRace(
-    seasonId: SeasonsEntity['id'],
-    raceId: RacesEntity['id']
-  ) {
+  clearSelectedRace() {
+    this.store.dispatch(RacesActions.clearSelectedRace());
+  }
+
+  loadFinalResultsByRaceAndSelectedSeason(raceId: RacesEntity['id']) {
     this.store.dispatch(
-      RacesActions.loadFinalResultsByRace({ seasonId, raceId })
+      RacesActions.loadFinalResultsByRaceAndSelectedSeason({ raceId })
     );
   }
 

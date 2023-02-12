@@ -93,6 +93,16 @@ const reducer = createReducer(
   on(RacesActions.loadRaceDriverStandingsFailure, (state, { error }) => ({
     ...state,
     driverStandingsError: error,
+  })),
+  on(RacesActions.clearSelectedRace, (state) => ({
+    ...state,
+    selectedId: undefined,
+    finalResults: [],
+    finalResultsLoaded: false,
+    qualifyingResults: [],
+    qualifyingResultsLoaded: false,
+    driverStandings: [],
+    driverStandingsLoaded: false,
   }))
 );
 
