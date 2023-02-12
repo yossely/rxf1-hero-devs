@@ -32,10 +32,13 @@ export const selectRace = createAction(
   props<{ raceId: RacesEntity['id'] }>()
 );
 
-export const loadFinalResultsByRace = createAction(
-  '[Races Page] Load race final results',
+export const clearSelectedRace = createAction(
+  '[Races Page] Clear Selected Race'
+);
+
+export const loadFinalResultsByRaceAndSelectedSeason = createAction(
+  '[Races Page] Load race final results by selected season',
   props<{
-    seasonId: SeasonsEntity['id'];
     raceId: RacesEntity['id'];
   }>()
 );
@@ -50,10 +53,9 @@ export const loadRaceFinalResultsFailure = createAction(
   props<{ error: any }>()
 );
 
-export const loadQualifyingResultsByRace = createAction(
-  '[Races Page] Load race qualifying results',
+export const loadQualifyingResultsByRaceAndSelectedSeason = createAction(
+  '[Races Page] Load race qualifying results by selected season',
   props<{
-    seasonId: SeasonsEntity['id'];
     raceId: RacesEntity['id'];
   }>()
 );
@@ -68,10 +70,9 @@ export const loadRaceQualifyingResultsFailure = createAction(
   props<{ error: any }>()
 );
 
-export const loadDriverStandingsByRace = createAction(
-  '[Races Page] Load race driver standing',
+export const loadDriverStandingsByRaceAndSelectedSeason = createAction(
+  '[Races Page] Load race driver standing by selected season',
   props<{
-    seasonId: SeasonsEntity['id'];
     raceId: RacesEntity['id'];
   }>()
 );

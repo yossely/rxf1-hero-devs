@@ -37,30 +37,25 @@ export class RacesFacade {
     this.store.dispatch(RacesActions.selectRace({ raceId }));
   }
 
-  loadFinalResultsByRace(
-    seasonId: SeasonsEntity['id'],
-    raceId: RacesEntity['id']
-  ) {
+  clearSelectedRace() {
+    this.store.dispatch(RacesActions.clearSelectedRace());
+  }
+
+  loadFinalResultsByRaceAndSelectedSeason(raceId: RacesEntity['id']) {
     this.store.dispatch(
-      RacesActions.loadFinalResultsByRace({ seasonId, raceId })
+      RacesActions.loadFinalResultsByRaceAndSelectedSeason({ raceId })
     );
   }
 
-  loadQualifyingResultsByRace(
-    seasonId: SeasonsEntity['id'],
-    raceId: RacesEntity['id']
-  ) {
+  loadQualifyingResultsByRaceAndSelectedSeason(raceId: RacesEntity['id']) {
     this.store.dispatch(
-      RacesActions.loadQualifyingResultsByRace({ seasonId, raceId })
+      RacesActions.loadQualifyingResultsByRaceAndSelectedSeason({ raceId })
     );
   }
 
-  loadDriverStandingsByRace(
-    seasonId: SeasonsEntity['id'],
-    raceId: RacesEntity['id']
-  ) {
+  loadDriverStandingsByRaceAndSelectedSeason(raceId: RacesEntity['id']) {
     this.store.dispatch(
-      RacesActions.loadDriverStandingsByRace({ seasonId, raceId })
+      RacesActions.loadDriverStandingsByRaceAndSelectedSeason({ raceId })
     );
   }
 }
