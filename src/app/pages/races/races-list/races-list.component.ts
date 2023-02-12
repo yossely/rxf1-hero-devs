@@ -26,6 +26,8 @@ export class RacesListComponent implements OnDestroy {
     'selectRace',
   ];
 
+  selectedRaceId: RacesEntity['id'] | undefined;
+
   @ViewChild(MatPaginator)
   paginator: MatPaginator | undefined;
 
@@ -50,8 +52,8 @@ export class RacesListComponent implements OnDestroy {
   }
 
   markRaceAsSelected(race: RacesEntity) {
-    // TODO: mark row as selected in table (highlight)
     this.racesFacade.selectRace(race.id);
+    this.selectedRaceId = race.id;
   }
 
   private loadRacesBySeason() {
@@ -63,11 +65,16 @@ export class RacesListComponent implements OnDestroy {
       .subscribe((selectedSeason) => {
         this.racesFacade.init(selectedSeason.id);
         this.currentSelectedSeason = selectedSeason;
-        this.racesFacade.clearSelectedRace();
+        this.clearSelectedRace();
 
         if (this.paginator) {
           this.paginator.firstPage();
         }
       });
+  }
+
+  private clearSelectedRace() {
+    this.racesFacade.clearSelectedRace();
+    this.selectedRaceId = undefined;
   }
 }

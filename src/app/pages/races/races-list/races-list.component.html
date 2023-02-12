@@ -5,7 +5,11 @@
 >
   <!-- Header -->
   <tr mat-header-row *matHeaderRowDef="driversListTableColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: driversListTableColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: driversListTableColumns"
+    [class.highlight]="row.id === selectedRaceId"
+  ></tr>
 
   <!-- Race ID (aka round) Column -->
   <ng-container matColumnDef="raceId">
