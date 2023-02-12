@@ -53,12 +53,9 @@ export class RacesFacade {
     );
   }
 
-  loadDriverStandingsByRace(
-    seasonId: SeasonsEntity['id'],
-    raceId: RacesEntity['id']
-  ) {
+  loadDriverStandingsByRaceAndSelectedSeason(raceId: RacesEntity['id']) {
     this.store.dispatch(
-      RacesActions.loadDriverStandingsByRace({ seasonId, raceId })
+      RacesActions.loadDriverStandingsByRaceAndSelectedSeason({ raceId })
     );
   }
 }

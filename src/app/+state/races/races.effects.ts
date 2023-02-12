@@ -78,12 +78,18 @@ export class RacesEffects {
     )
   );
 
-  loadDriverStandings$ = createEffect(() =>
+  loadDriverStandingsByRaceAndSelectedSeason$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(RacesActions.loadDriverStandingsByRace),
-      switchMap(({ seasonId, raceId }) =>
-        this.racesService$.getDriverStandingsByRace(seasonId, raceId)
-      ),
+      ofType(RacesActions.loadDriverStandingsByRaceAndSelectedSeason),
+      withLatestFrom(this.seasonFacade$.selectedSeason$),
+      switchMap(([{ raceId }, selectedSeason]) => {
+        return selectedSeason
+          ? this.racesService$.getDriverStandingsByRace(
+              selectedSeason.id,
+              raceId
+            )
+          : [];
+      }),
       switchMap(({ results }) =>
         of(
           RacesActions.loadRaceDriverStandingsSuccess({

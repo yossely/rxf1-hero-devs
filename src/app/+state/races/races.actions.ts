@@ -70,10 +70,9 @@ export const loadRaceQualifyingResultsFailure = createAction(
   props<{ error: any }>()
 );
 
-export const loadDriverStandingsByRace = createAction(
-  '[Races Page] Load race driver standing',
+export const loadDriverStandingsByRaceAndSelectedSeason = createAction(
+  '[Races Page] Load race driver standing by selected season',
   props<{
-    seasonId: SeasonsEntity['id'];
     raceId: RacesEntity['id'];
   }>()
 );
