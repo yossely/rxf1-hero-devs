@@ -7,6 +7,7 @@ import { DriversPageComponent } from './drivers-page/drivers-page.component';
 import { DriversStateModule } from 'src/app/+state';
 import { DriversListComponent } from './drivers-list/drivers-list.component';
 import { SeasonsFilterModule } from 'src/app/shared/components/seasons-filter/seasons-filter.module';
+import { DriversRoutingModule } from './drivers-routing.module';
 
 @NgModule({
   declarations: [DriversPageComponent, DriversListComponent],
@@ -16,6 +17,7 @@ import { SeasonsFilterModule } from 'src/app/shared/components/seasons-filter/se
     SeasonsFilterModule,
     MatTableModule,
     MatPaginatorModule,
+    DriversRoutingModule,
   ],
   exports: [DriversPageComponent, DriversListComponent],
 })

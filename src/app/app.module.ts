@@ -11,10 +11,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { NavbarModule } from './navbar/navbar.module';
-import { DriversPageComponent } from './pages/drivers/drivers-page/drivers-page.component';
 import { DriversModule } from './pages/drivers/drivers.module';
 import { SeasonsStateModule } from './+state';
-import { RacesPageComponent } from './pages/races/races-page/races-page.component';
 import { RacesModule } from './pages/races/races.module';
 
 @NgModule({
@@ -31,11 +29,13 @@ import { RacesModule } from './pages/races/races.module';
     RouterModule.forRoot([
       {
         path: 'drivers',
-        component: DriversPageComponent,
+        loadChildren: () =>
+          import('./pages/drivers/drivers.module').then((m) => m.DriversModule),
       },
       {
         path: 'races',
-        component: RacesPageComponent,
+        loadChildren: () =>
+          import('./pages/races/races.module').then((m) => m.RacesModule),
       },
       {
         path: '**',
