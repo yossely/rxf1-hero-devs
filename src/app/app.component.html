@@ -1,14 +1,13 @@
 <rxf1-hero-devs-navbar [drawer]="drawer"></rxf1-hero-devs-navbar>
 
 <mat-drawer-container>
-    <mat-drawer #drawer mode="over">
-        <mat-nav-list>
-            <a mat-list-item href="/">Home</a>
-            <a mat-list-item href="/drivers">Drivers</a>
-            <a mat-list-item href="/races">Races</a>
-        </mat-nav-list>
-    </mat-drawer>
-    <mat-drawer-content class="content">
-        <router-outlet></router-outlet>
-    </mat-drawer-content>
+  <mat-drawer #drawer mode="over">
+    <mat-nav-list>
+      <a mat-list-item href="/drivers">Drivers</a>
+      <a mat-list-item href="/races">Races</a>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content class="content">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
 </mat-drawer-container>
