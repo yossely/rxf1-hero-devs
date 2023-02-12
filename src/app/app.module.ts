@@ -10,7 +10,6 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
 import { NavbarModule } from './navbar/navbar.module';
 import { DriversPageComponent } from './pages/drivers/drivers-page/drivers-page.component';
 import { DriversModule } from './pages/drivers/drivers.module';
@@ -40,7 +39,7 @@ import { RacesModule } from './pages/races/races.module';
       },
       {
         path: '**',
-        component: HomeComponent,
+        redirectTo: 'drivers',
       },
     ]),
     StoreModule.forRoot(
