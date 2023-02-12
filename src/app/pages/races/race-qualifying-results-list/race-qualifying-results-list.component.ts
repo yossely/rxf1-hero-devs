@@ -1,10 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { combineLatest, filter, map, Subscription } from 'rxjs';
+import { filter, map, Subscription } from 'rxjs';
 
 import { RacesFacade } from 'src/app/+state/races/races.facade';
 import { RacesEntity } from 'src/app/+state/races/races.models';
-import { SeasonsFacade } from 'src/app/+state/seasons/seasons.facade';
-import { SeasonsEntity } from 'src/app/+state/seasons/seasons.models';
 
 @Component({
   selector: 'rxf1-hero-devs-race-qualifying-results-list',
@@ -13,7 +11,6 @@ import { SeasonsEntity } from 'src/app/+state/seasons/seasons.models';
 })
 export class RaceQualifyingResultsListComponent implements OnDestroy {
   raceQualifyingResults$ = this.racesFacade.raceQualifyingResults$;
-  selectedSeason$ = this.seasonsFacade.selectedSeason$;
   selectedRace$ = this.racesFacade.selectedRace$;
 
   raceQualifyingResultsListTableColumns: string[] = [
@@ -26,34 +23,26 @@ export class RaceQualifyingResultsListComponent implements OnDestroy {
     'q3',
   ];
 
-  private selectedSeasonSub!: Subscription;
+  private selectedRaceSub!: Subscription;
 
-  constructor(
-    private racesFacade: RacesFacade,
-    private seasonsFacade: SeasonsFacade
-  ) {
+  constructor(private racesFacade: RacesFacade) {
     this.loadQualifyingResultsByRace();
   }
 
   ngOnDestroy(): void {
-    this.selectedSeasonSub.unsubscribe();
+    this.selectedRaceSub.unsubscribe();
   }
 
   private loadQualifyingResultsByRace() {
-    this.selectedSeasonSub = combineLatest([
-      this.selectedSeason$.pipe(
-        filter((selectedSeason) => !!selectedSeason && !!selectedSeason.id),
-        map((selectedSeason) => selectedSeason as SeasonsEntity)
-      ),
-      this.selectedRace$.pipe(
+    this.selectedRaceSub = this.selectedRace$
+      .pipe(
         filter((selectedRace) => !!selectedRace && !!selectedRace.id),
         map((selectedRace) => selectedRace as RacesEntity)
-      ),
-    ]).subscribe(([selectedSeason, selectedRace]) => {
-      this.racesFacade.loadQualifyingResultsByRace(
-        selectedSeason.id,
-        selectedRace.id
-      );
-    });
+      )
+      .subscribe((selectedRace) => {
+        this.racesFacade.loadQualifyingResultsByRaceAndSelectedSeason(
+          selectedRace.id
+        );
+      });
   }
 }

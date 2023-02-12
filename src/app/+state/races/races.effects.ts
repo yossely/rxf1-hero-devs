@@ -54,10 +54,16 @@ export class RacesEffects {
 
   loadRaceQualifyingResults$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(RacesActions.loadQualifyingResultsByRace),
-      switchMap(({ seasonId, raceId }) =>
-        this.racesService$.getQualifyingResultsByRace(seasonId, raceId)
-      ),
+      ofType(RacesActions.loadQualifyingResultsByRaceAndSelectedSeason),
+      withLatestFrom(this.seasonFacade$.selectedSeason$),
+      switchMap(([{ raceId }, selectedSeason]) => {
+        return selectedSeason
+          ? this.racesService$.getQualifyingResultsByRace(
+              selectedSeason.id,
+              raceId
+            )
+          : [];
+      }),
       switchMap(({ results }) =>
         of(
           RacesActions.loadRaceQualifyingResultsSuccess({

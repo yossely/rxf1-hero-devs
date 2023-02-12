@@ -53,10 +53,9 @@ export const loadRaceFinalResultsFailure = createAction(
   props<{ error: any }>()
 );
 
-export const loadQualifyingResultsByRace = createAction(
-  '[Races Page] Load race qualifying results',
+export const loadQualifyingResultsByRaceAndSelectedSeason = createAction(
+  '[Races Page] Load race qualifying results by selected season',
   props<{
-    seasonId: SeasonsEntity['id'];
     raceId: RacesEntity['id'];
   }>()
 );

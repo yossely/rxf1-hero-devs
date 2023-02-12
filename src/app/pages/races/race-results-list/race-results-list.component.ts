@@ -39,7 +39,6 @@ export class RaceResultsListComponent implements OnDestroy {
         map((selectedRace) => selectedRace as RacesEntity)
       )
       .subscribe((selectedRace) => {
-        console.log({ selectedRace });
         this.racesFacade.loadFinalResultsByRaceAndSelectedSeason(
           selectedRace.id
         );

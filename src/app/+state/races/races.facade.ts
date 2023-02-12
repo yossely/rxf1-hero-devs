@@ -47,12 +47,9 @@ export class RacesFacade {
     );
   }
 
-  loadQualifyingResultsByRace(
-    seasonId: SeasonsEntity['id'],
-    raceId: RacesEntity['id']
-  ) {
+  loadQualifyingResultsByRaceAndSelectedSeason(raceId: RacesEntity['id']) {
     this.store.dispatch(
-      RacesActions.loadQualifyingResultsByRace({ seasonId, raceId })
+      RacesActions.loadQualifyingResultsByRaceAndSelectedSeason({ raceId })
     );
   }
 
